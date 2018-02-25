@@ -1,4 +1,5 @@
 src/rc4func.o
 tests/Golden_rc4.o
+tests/Test_rc4.o
 tests/main.o
 tests/rc4test.exe
