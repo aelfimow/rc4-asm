@@ -3,6 +3,7 @@
 #else
 #define GOLDEN_RC4_H
 
+#include <cstdint>
 #include <vector>
 
 class Golden_rc4
@@ -11,7 +12,7 @@ class Golden_rc4
         Golden_rc4(std::vector<uint8_t> &key);
         ~Golden_rc4();
 
-        std::vector<uint8_t> run(std::vector<uint8_t> &data);
+        std::vector<uint8_t> run(const std::vector<uint8_t> &data);
 
     private:
         std::vector<uint8_t> sbox;
