@@ -3,7 +3,7 @@
 #include "Test_rc4.h"
 
 
-Test_rc4::Test_rc4(std::vector<uint8_t> &key) :
+Test_rc4::Test_rc4(const std::vector<uint8_t> &key) :
     sbox { }
 {
     sbox.reserve(256);

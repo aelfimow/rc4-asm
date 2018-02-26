@@ -1,7 +1,7 @@
 #include "Golden_rc4.h"
 
 
-Golden_rc4::Golden_rc4(std::vector<uint8_t> &key) :
+Golden_rc4::Golden_rc4(const std::vector<uint8_t> &key) :
     sbox { }
 {
     constexpr size_t maxCount { 256 };

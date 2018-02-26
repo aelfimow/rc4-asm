@@ -9,7 +9,7 @@
 class Test_rc4
 {
     public:
-        Test_rc4(std::vector<uint8_t> &key);
+        explicit Test_rc4(const std::vector<uint8_t> &key);
         ~Test_rc4();
 
         std::vector<uint8_t> run(const std::vector<uint8_t> &data);

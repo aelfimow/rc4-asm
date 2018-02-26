@@ -9,7 +9,7 @@
 class Golden_rc4
 {
     public:
-        Golden_rc4(std::vector<uint8_t> &key);
+        explicit Golden_rc4(const std::vector<uint8_t> &key);
         ~Golden_rc4();
 
         std::vector<uint8_t> run(const std::vector<uint8_t> &data);
