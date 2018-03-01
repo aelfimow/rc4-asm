@@ -7,30 +7,46 @@
 static_assert(sizeof(size_t) == 8, "size_t expected to be 64 bit");
 
 
-template <typename T1, typename T2, typename T3> void run_test(const T1 &key, const T2 &data, T3 count)
+static void test1()
 {
-    Golden_rc4 grc4 { key };
-    auto grc4_enc = grc4.run(data);
+    const std::string func_name { __func__ };
 
-    Test_rc4 trc4 { key };
-    auto trc4_enc = trc4.run(data);
+    constexpr auto keySize { 100 };
+    constexpr auto dataSize { 1000 };
 
-    if (grc4_enc == data)
+    std::vector<uint8_t> key { 0 };
+
+    while (key.size() < keySize)
     {
-        std::cout << "run_test count = " << count << std::endl;
-        throw std::logic_error("grc4_enc == data");
-    }
+        std::vector<uint8_t> data { 0 };
 
-    if (trc4_enc == data)
-    {
-        std::cout << "run_test count = " << count << std::endl;
-        throw std::logic_error("trc4_enc == data");
-    }
+        while (data.size() < dataSize)
+        {
+            Golden_rc4 grc4 { key };
+            auto grc4_enc = grc4.run(data);
 
-    if (grc4_enc != trc4_enc)
-    {
-        std::cout << "run_test count = " << count << std::endl;
-        throw std::logic_error("grc4_enc != trc4_enc");
+            Test_rc4 trc4 { key };
+            auto trc4_enc = trc4.run(data);
+
+            if (grc4_enc == data)
+            {
+                throw std::logic_error(func_name + ": grc4_enc == data");
+            }
+
+            if (trc4_enc == data)
+            {
+                throw std::logic_error(func_name + ": trc4_enc == data");
+            }
+
+            if (grc4_enc != trc4_enc)
+            {
+                throw std::logic_error(func_name + ": grc4_enc != trc4_enc");
+            }
+
+            data.push_back(0);
+        }
+
+        key.push_back(0);
     }
 }
 
@@ -41,25 +57,7 @@ try
     argc = argc;
     argv = argv;
 
-    {
-        constexpr auto keySize { 100 };
-        constexpr auto dataSize { 1000 };
-
-        std::vector<uint8_t> key { 0 };
-
-        while (key.size() < keySize)
-        {
-            std::vector<uint8_t> data { 0 };
-
-            while (data.size() < dataSize)
-            {
-                run_test(key, data, data.size());
-                data.push_back(0);
-            }
-
-            key.push_back(0);
-        }
-    }
+    test1();
 
     return EXIT_SUCCESS;
 }
