@@ -11,6 +11,8 @@ static void test1()
 {
     const std::string func_name { __func__ };
 
+    std::cout << func_name << ": started" << std::endl;
+
     constexpr auto keySize { 100 };
     constexpr auto dataSize { 1000 };
 
@@ -50,6 +52,56 @@ static void test1()
     }
 }
 
+static void test2()
+{
+    const std::string func_name { __func__ };
+
+    std::cout << func_name << ": started" << std::endl;
+
+    constexpr auto keySize { 100 };
+    constexpr auto dataSize { 1000 };
+
+    uint8_t keyValue { 255 };
+    uint8_t dataValue { 0 };
+
+    std::vector<uint8_t> key;
+    key.push_back(keyValue);
+
+    while (key.size() < keySize)
+    {
+        std::vector<uint8_t> data { 0 };
+
+        while (data.size() < dataSize)
+        {
+            Golden_rc4 grc4 { key };
+            auto grc4_enc = grc4.run(data);
+
+            Test_rc4 trc4 { key };
+            auto trc4_enc = trc4.run(data);
+
+            if (grc4_enc == data)
+            {
+                throw std::logic_error(func_name + ": grc4_enc == data");
+            }
+
+            if (trc4_enc == data)
+            {
+                throw std::logic_error(func_name + ": trc4_enc == data");
+            }
+
+            if (grc4_enc != trc4_enc)
+            {
+                throw std::logic_error(func_name + ": grc4_enc != trc4_enc");
+            }
+
+            ++dataValue;
+            data.push_back(dataValue);
+        }
+
+        --keyValue;
+        key.push_back(keyValue);
+    }
+}
 
 int main(int argc, char *argv[])
 try
@@ -58,6 +110,7 @@ try
     argv = argv;
 
     test1();
+    test2();
 
     return EXIT_SUCCESS;
 }
