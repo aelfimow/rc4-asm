@@ -42,16 +42,22 @@ try
     argv = argv;
 
     {
+        constexpr auto keySize { 100 };
+        constexpr auto dataSize { 1000 };
+
         std::vector<uint8_t> key { 0 };
-        std::vector<uint8_t> data { 0 };
 
-        auto count { 0 };
-
-        while (count < 1000)
+        while (key.size() < keySize)
         {
-            run_test(key, data, count);
-            data.push_back(0);
-            ++count;
+            std::vector<uint8_t> data { 0 };
+
+            while (data.size() < dataSize)
+            {
+                run_test(key, data, data.size());
+                data.push_back(0);
+            }
+
+            key.push_back(0);
         }
     }
 
