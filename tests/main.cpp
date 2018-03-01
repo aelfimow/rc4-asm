@@ -6,6 +6,51 @@
 
 static_assert(sizeof(size_t) == 8, "size_t expected to be 64 bit");
 
+static void test0()
+{
+    const std::string func_name { __func__ };
+
+    std::cout << func_name << ": started" << std::endl;
+
+    constexpr auto keySize { 100 };
+    constexpr auto dataSize { 1000 };
+
+    std::vector<uint8_t> key { 0 };
+
+    while (key.size() < keySize)
+    {
+        std::vector<uint8_t> data { 0 };
+
+        while (data.size() < dataSize)
+        {
+            Golden_rc4 grc4_a { key };
+            Golden_rc4 grc4_b { key };
+
+            auto grc4_enc = grc4_a.run(data);
+
+            auto grc4_dec = grc4_b.run(grc4_enc);
+
+            if (grc4_enc == data)
+            {
+                throw std::logic_error(func_name + ": grc4_enc == data");
+            }
+
+            if (grc4_enc == grc4_dec)
+            {
+                throw std::logic_error(func_name + ": grc4_enc == grc4_dec");
+            }
+
+            if (data != grc4_dec)
+            {
+                throw std::logic_error(func_name + ": data != grc4_dec");
+            }
+
+            data.push_back(0);
+        }
+
+        key.push_back(0);
+    }
+}
 
 static void test1()
 {
@@ -109,6 +154,7 @@ try
     argc = argc;
     argv = argv;
 
+    test0();
     test1();
     test2();
 
