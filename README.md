@@ -1,7 +1,7 @@
 # rc4-asm
-This is a 64-bit rc4 stream cipher implementation in x86 assembly language.
+This is a 64-bit RC4 stream cipher implementation in x86 assembly language.
 
-rc4 was developed by Ronald L. Rivest in the 80s. This is an attempt to implement
+RC4 was developed by Ronald L. Rivest in the 80s. This is an attempt to implement
 the algorithm in 64-bit assembly language.
 
 ## Tests
